@@ -2,6 +2,10 @@
 Changelog for package qt_gui
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.3 (2016-09-19)
+------------------
+* remove attribute AA_X11InitThreads which is obsolete in Qt 5
+
 0.3.2 (2016-04-21)
 ------------------
 * only restore state on toolbars which have an object name (`#65 <https://github.com/ros-visualization/qt_gui_core/pull/65>`_)
