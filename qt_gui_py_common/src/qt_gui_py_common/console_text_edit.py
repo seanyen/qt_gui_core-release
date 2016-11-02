@@ -33,8 +33,7 @@
 import sys
 
 from python_qt_binding.QtCore import Qt
-from python_qt_binding.QtGui import QFont
-from python_qt_binding.QtWidgets import QTextEdit
+from python_qt_binding.QtGui import QFont, QTextEdit
 
 
 class ConsoleTextEdit(QTextEdit):

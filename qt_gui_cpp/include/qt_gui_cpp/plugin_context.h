@@ -53,8 +53,6 @@ class PluginContext
   : public QObject
 {
 
-  Q_OBJECT
-
 public:
 
   PluginContext(QObject* obj, int serial_number, const QStringList& argv);

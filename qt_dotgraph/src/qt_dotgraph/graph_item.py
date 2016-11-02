@@ -28,8 +28,7 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from python_qt_binding.QtGui import QColor
-from python_qt_binding.QtWidgets import QGraphicsItemGroup
+from python_qt_binding.QtGui import QColor, QGraphicsItemGroup
 
 
 class GraphItem(QGraphicsItemGroup):

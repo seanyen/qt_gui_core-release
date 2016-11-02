@@ -8,7 +8,6 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS pluginlib
-  CFG_EXTRAS ${PROJECT_NAME}-extras.cmake
   DEPENDS Boost
 )
 
