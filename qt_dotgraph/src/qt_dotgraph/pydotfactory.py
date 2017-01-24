@@ -31,7 +31,10 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from distutils.version import LooseVersion
-import urllib
+try:
+    from urllib.request import quote
+except ImportError:
+    from urllib import quote
 
 # work around for https://bugs.launchpad.net/ubuntu/+source/pydot/+bug/1321135
 import pyparsing
@@ -53,7 +56,7 @@ class PydotFactory():
         return ret
 
     def escape_name(self, name):
-        ret = urllib.quote(name.strip())
+        ret = quote(name.strip())
         ret = ret.replace('/', '_')
         ret = ret.replace('%', '_')
         ret = ret.replace('-', '_')
@@ -98,6 +101,8 @@ class PydotFactory():
         node.set_label(self.escape_label(nodelabel))
         if tooltip is not None:
             node.set_tooltip(tooltip)
+        elif url is not None:
+            node.set_tooltip(url)
         if url is not None:
             node.set_URL(self.escape_name(url))
         if color is not None:
