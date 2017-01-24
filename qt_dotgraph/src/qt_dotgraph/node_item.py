@@ -29,7 +29,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from python_qt_binding.QtCore import Qt
-from python_qt_binding.QtGui import QBrush, QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsSimpleTextItem, QPainterPath, QPen
+from python_qt_binding.QtGui import QBrush, QPainterPath, QPen
+from python_qt_binding.QtWidgets import QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsSimpleTextItem
 
 from .graph_item import GraphItem
 
@@ -57,6 +58,7 @@ class NodeItem(GraphItem):
         self.addToGroup(self._graphics_item)
 
         self._label = QGraphicsSimpleTextItem(label)
+        self._label.setFont(GraphItem._LABEL_FONT)
         label_rect = self._label.boundingRect()
         if label_pos is None:
             label_rect.moveCenter(bounding_box.center())

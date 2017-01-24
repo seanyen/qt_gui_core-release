@@ -2,9 +2,27 @@
 Changelog for package qt_gui
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.31 (2016-11-02)
--------------------
-* add cli option to disable Qt.AA_X11InitThreads (`#69 <https://github.com/ros-visualization/qt_gui_core/pull/69>`_)
+0.3.4 (2017-01-24)
+------------------
+* use Python 3 compatible syntax (`#81 <https://github.com/ros-visualization/qt_gui_core/pull/81>`_)
+* fix leftover dock widgets when using --command-switch-perspective (`#80 <https://github.com/ros-visualization/qt_gui_core/pull/80>`_)
+* make finding new parent logic more robust (`#76 <https://github.com/ros-visualization/qt_gui_core/pull/76>`_)
+
+0.3.3 (2016-09-19)
+------------------
+* remove attribute AA_X11InitThreads which is obsolete in Qt 5
+
+0.3.2 (2016-04-21)
+------------------
+* only restore state on toolbars which have an object name (`#65 <https://github.com/ros-visualization/qt_gui_core/pull/65>`_)
+
+0.3.1 (2016-04-18)
+------------------
+* workaround bug (QTBUG-52582) in QMenu with Qt 5 (`ros-visualization/python_qt_binding#33 <https://github.com/ros-visualization/python_qt_binding/issues/33>`_)
+
+0.3.0 (2016-04-01)
+------------------
+* switch to Qt5 (`#64 <https://github.com/ros-visualization/qt_gui_core/pull/64>`_)
 
 0.2.30 (2016-03-30)
 -------------------

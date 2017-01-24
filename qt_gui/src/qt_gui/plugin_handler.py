@@ -31,7 +31,7 @@
 import traceback
 
 from python_qt_binding.QtCore import qCritical, qDebug, QObject, Qt, qWarning, Signal, Slot
-from python_qt_binding.QtGui import QDockWidget, QToolBar
+from python_qt_binding.QtWidgets import QDockWidget, QToolBar
 
 from .dock_widget import DockWidget
 from .dock_widget_title_bar import DockWidgetTitleBar
@@ -114,10 +114,10 @@ class PluginHandler(QObject):
             qCritical('PluginHandler.load() failed%s' % (':\n%s' % str(exception) if exception != True else ''))
 
     def _garbage_widgets_and_toolbars(self):
-        for widget in self._widgets.keys():
+        for widget in list(self._widgets.keys()):
             self.remove_widget(widget)
             self._delete_widget(widget)
-        for toolbar in self._toolbars:
+        for toolbar in list(self._toolbars):
             self.remove_toolbar(toolbar)
             self._delete_toolbar(toolbar)
 
@@ -282,7 +282,7 @@ class PluginHandler(QObject):
                 title_bar.show_button('configuration')
 
     def _remove_widget_by_dock_widget(self, dock_widget):
-        widget = [key for key, value in self._widgets.iteritems() if value[0] == dock_widget][0]
+        widget = [key for key, value in self._widgets.items() if value[0] == dock_widget][0]
         self.remove_widget(widget)
 
     def _emit_help_signal(self):
@@ -356,6 +356,7 @@ class PluginHandler(QObject):
         if self._main_window is not None:
             dock_widget.parent().removeDockWidget(dock_widget)
         # do not delete the widget, only the dock widget
+        dock_widget.setParent(None)
         widget.setParent(None)
         dock_widget.deleteLater()
         # defer check for last widget closed to give plugin a chance to add another widget right away

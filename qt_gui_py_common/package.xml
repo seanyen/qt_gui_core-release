@@ -1,6 +1,6 @@
 <package>
   <name>qt_gui_py_common</name>
-  <version>0.2.31</version>
+  <version>0.3.4</version>
   <description>
     qt_gui_py_common provides common functionality for GUI plugins written in Python.
   </description>
@@ -14,6 +14,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>python_qt_binding</run_depend>
+  <run_depend version_gte="0.3.0">python_qt_binding</run_depend>
   <run_depend>python-rospkg</run_depend>
 </package>

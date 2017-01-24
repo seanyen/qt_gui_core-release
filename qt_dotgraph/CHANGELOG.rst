@@ -2,9 +2,26 @@
 Changelog for package qt_dotgraph
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.31 (2016-11-02)
--------------------
+0.3.4 (2017-01-24)
+------------------
+* use Python 3 compatible syntax (`#81 <https://github.com/ros-visualization/qt_gui_core/pull/81>`_)
+* fix label size in dot graphs (`#75 <https://github.com/ros-visualization/qt_gui_core/pull/75>`_)
+
+0.3.3 (2016-09-19)
+------------------
+* work with newer pydot versions (`#70 <https://github.com/ros-visualization/qt_gui_core/pull/70>`_)
 * make penwidth attribute optional
+
+0.3.2 (2016-04-21)
+------------------
+
+0.3.1 (2016-04-18)
+------------------
+* fix imports with Qt 5
+
+0.3.0 (2016-04-01)
+------------------
+* switch to Qt5 (`#64 <https://github.com/ros-visualization/qt_gui_core/pull/64>`_)
 
 0.2.30 (2016-03-30)
 -------------------

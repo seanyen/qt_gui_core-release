@@ -29,7 +29,9 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from python_qt_binding.QtCore import QPointF, Qt
-from python_qt_binding.QtGui import QBrush, QGraphicsPathItem, QGraphicsPolygonItem, QGraphicsSimpleTextItem, QPainterPath, QPen, QPolygonF
+from python_qt_binding.QtGui import QBrush, QPainterPath, QPen, QPolygonF
+from python_qt_binding.QtWidgets import QGraphicsPathItem, QGraphicsPolygonItem, QGraphicsSimpleTextItem
+
 
 from .graph_item import GraphItem
 
@@ -73,6 +75,7 @@ class EdgeItem(GraphItem):
         self._label = None
         if label is not None:
             self._label = QGraphicsSimpleTextItem(label)
+            self._label.setFont(GraphItem._LABEL_FONT)
             label_rect = self._label.boundingRect()
             label_rect.moveCenter(label_center)
             self._label.setPos(label_rect.x(), label_rect.y())
