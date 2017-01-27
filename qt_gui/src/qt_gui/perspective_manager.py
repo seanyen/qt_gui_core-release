@@ -33,27 +33,18 @@ import os
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import QByteArray, qDebug, QObject, QSignalMapper, Signal, Slot
-from python_qt_binding.QtGui import QIcon, QValidator
-from python_qt_binding.QtWidgets import QAction, QFileDialog, QInputDialog, QMessageBox
+from python_qt_binding.QtGui import QAction, QFileDialog, QIcon, QInputDialog, QMessageBox, QValidator
 
 from .menu_manager import MenuManager
 from .settings import Settings
 from .settings_proxy import SettingsProxy
 
 
-def is_string(s):
-    """Check if the argument is a string which works for both Python 2 and 3."""
-    try:
-        return isinstance(s, basestring)
-    except NameError:
-        return isinstance(s, str)
-
-
 class PerspectiveManager(QObject):
 
     """Manager for perspectives associated with specific sets of `Settings`."""
 
-    perspective_changed_signal = Signal(str)
+    perspective_changed_signal = Signal(basestring)
     save_settings_signal = Signal(Settings, Settings)
     restore_settings_signal = Signal(Settings, Settings)
     restore_settings_without_plugin_changes_signal = Signal(Settings, Settings)
@@ -76,7 +67,7 @@ class PerspectiveManager(QObject):
 
         # get perspective list from settings
         self.perspectives = self._settings_proxy.value('', 'perspectives', [])
-        if is_string(self.perspectives):
+        if isinstance(self.perspectives, basestring):
             self.perspectives = [self.perspectives]
 
         self._current_perspective = None

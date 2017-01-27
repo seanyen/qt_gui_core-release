@@ -29,8 +29,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from python_qt_binding.QtCore import Qt
-from python_qt_binding.QtGui import QBrush, QPainterPath, QPen
-from python_qt_binding.QtWidgets import QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsSimpleTextItem
+from python_qt_binding.QtGui import QBrush, QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsSimpleTextItem, QPainterPath, QPen
 
 from .graph_item import GraphItem
 
