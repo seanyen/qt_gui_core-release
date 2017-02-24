@@ -51,7 +51,6 @@ def check_x_server():
     return p.returncode == 0
 
 
-
 class DotToQtGeneratorTest(unittest.TestCase):
 
     DOT_CODE = '''
@@ -75,7 +74,7 @@ class DotToQtGeneratorTest(unittest.TestCase):
             pos="77,18",
             shape=box,
             width=2.25];
-        foo -> bar	 [pos="e,77,36.104 77,71.697 77,63.983 77,54.712 77,46.112"];
+        foo -> bar [pos="e,77,36.104 77,71.697 77,63.983 77,54.712 77,46.112"];
     }
     '''
 
@@ -83,6 +82,7 @@ class DotToQtGeneratorTest(unittest.TestCase):
 
     def __init__(self, *args):
         super(DotToQtGeneratorTest, self).__init__(*args)
+
         # needed for creation of QtGraphic items in NodeItem.__init__
         if DotToQtGeneratorTest._Q_APP is None:
             if check_x_server():
