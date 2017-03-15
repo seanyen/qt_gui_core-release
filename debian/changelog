@@ -1,0 +1,163 @@
+ros-lunar-qt-gui-app (0.3.4-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Tue, 24 Jan 2017 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.3.3-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Mon, 19 Sep 2016 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.3.2-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Thu, 21 Apr 2016 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.3.1-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Mon, 18 Apr 2016 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.3.0-2zesty) zesty; urgency=high
+
+  * switch to Qt5 (#64 <https://github.com/ros-visualization/qt_gui_core/pull/64>)
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Fri, 01 Apr 2016 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.30-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 30 Mar 2016 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.29-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Sat, 19 Sep 2015 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.28-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Mon, 08 Jun 2015 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.27-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 29 Apr 2015 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.26-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Mon, 18 Aug 2014 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.25-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Thu, 10 Jul 2014 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.24-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 21 May 2014 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.23-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 07 May 2014 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.22-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Tue, 04 Mar 2014 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.21-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 12 Feb 2014 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.20-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Sun, 19 Jan 2014 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.19-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 08 Jan 2014 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.18-2zesty) zesty; urgency=high
+
+  * improve startup time (#28 <https://github.com/ros-visualization/qt_gui_core/issues/28>)
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 09 Oct 2013 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.17-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Wed, 21 Aug 2013 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.16-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Thu, 06 Jun 2013 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.15-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Tue, 02 Apr 2013 07:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.14-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Fri, 29 Mar 2013 05:42:00 -0000
+
+ros-lunar-qt-gui-app (0.2.13-2zesty) zesty; urgency=high
+
+  * move script 'qt_gui_app' into package specific bin folder (ros-visualization/rqt#68 <https://github.com/ros-visualization/rqt/issues/68>)
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Fri, 29 Mar 2013 01:08:00 -0000
+
+ros-lunar-qt-gui-app (0.2.12-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Thu, 17 Jan 2013 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.11-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Sun, 13 Jan 2013 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.10-2zesty) zesty; urgency=high
+
+
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Fri, 11 Jan 2013 08:00:00 -0000
+
+ros-lunar-qt-gui-app (0.2.9-2zesty) zesty; urgency=high
+
+  * first public release for Groovy
+
+ -- Dirk Thomas <dthomas@osrfoundation.org>  Fri, 21 Dec 2012 08:00:00 -0000
+
+
