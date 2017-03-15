@@ -1,3 +1,32 @@
+## qt_gui_core (lunar) - 0.3.4-1
+
+The packages in the `qt_gui_core` repository were released into the `lunar` distro by running `/usr/bin/bloom-release -r lunar -t lunar qt_gui_core` on `Wed, 15 Mar 2017 17:47:56 -0000`
+
+These packages were released:
+- `qt_dotgraph`
+- `qt_gui`
+- `qt_gui_app`
+- `qt_gui_core`
+- `qt_gui_cpp`
+- `qt_gui_py_common`
+
+Version of package(s) in repository `qt_gui_core`:
+
+- upstream repository: https://github.com/ros-visualization/qt_gui_core.git
+- release repository: https://github.com/ros-gbp/qt_gui_core-release.git
+- rosdistro version: `0.3.4-0`
+- old version: `0.3.4-0`
+- new version: `0.3.4-1`
+
+Versions of tools used:
+
+- bloom version: `0.5.24`
+- catkin_pkg version: `0.3.1`
+- rosdep version: `0.11.5`
+- rosdistro version: `0.6.1`
+- vcstools version: `0.1.39`
+
+
 ## qt_gui_core (lunar) - 0.3.4-0
 
 The packages in the `qt_gui_core` repository were released into the `lunar` distro by running `/usr/bin/bloom-release -r lunar -t lunar qt_gui_core` on `Fri, 24 Feb 2017 17:44:10 -0000`
