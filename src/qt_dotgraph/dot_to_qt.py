@@ -35,6 +35,8 @@ import pyparsing
 pyparsing._noncomma = "".join([c for c in pyparsing.printables if c != ","])
 import pydot
 
+import codecs
+
 from python_qt_binding.QtCore import QPointF, QRectF
 from python_qt_binding.QtGui import QColor
 
@@ -135,7 +137,8 @@ class DotToQtGenerator():
         if name is None:
             print("Error, no label defined for node with attr: %s" % node.attr)
             return None
-        name = name.decode('string_escape')
+
+        name = codecs.escape_decode(name)[0].decode('utf-8')
 
         # decrease rect by one so that edges do not reach inside
         bb_width = node.attr.get('width', len(name) / 5)
@@ -218,9 +221,13 @@ class DotToQtGenerator():
                     edge_item.add_sibling_edge(sibling)
                     sibling.add_sibling_edge(edge_item)
 
-        if label not in edges:
-            edges[label] = []
-        edges[label].append(edge_item)
+        edge_name = source_node.strip('"\n"') + '_TO_' + destination_node.strip('"\n"')
+        if label is not None:
+            edge_name = edge_name + '_' + label
+
+        if edge_name not in edges:
+            edges[edge_name] = []
+        edges[edge_name].append(edge_item)
 
     def dotcode_to_qt_items(self, dotcode, highlight_level, same_label_siblings=False):
         """
@@ -231,22 +238,27 @@ class DotToQtGenerator():
         # layout graph
         if dotcode is None:
             return {}, {}
-        graph = pydot.graph_from_dot_data(dotcode.encode("ascii", "ignore"))
+        graph = pydot.graph_from_dot_data(dotcode)
         if isinstance(graph, list):
             graph = graph[0]
 
         #graph = pygraphviz.AGraph(string=self._current_dotcode, strict=False, directed=True)
         #graph.layout(prog='dot')
 
+        nodes = self.parse_nodes(graph, highlight_level)
+        edges = self.parse_edges(graph, nodes, highlight_level, same_label_siblings)
+        return nodes, edges
+
+    def parse_nodes(self, graph, highlight_level):
+        """Recursively searches all nodes inside the graph and all subgraphs."""
         # let pydot imitate pygraphviz api
         graph.nodes_iter = graph.get_node_list
-        graph.edges_iter = graph.get_edge_list
-
         graph.subgraphs_iter = graph.get_subgraph_list
 
         nodes = {}
         for subgraph in graph.subgraphs_iter():
             subgraph_nodeitem = self.getNodeItemForSubgraph(subgraph, highlight_level)
+            nodes.update(self.parse_nodes(subgraph, highlight_level))
             # skip subgraphs with empty bounding boxes
             if subgraph_nodeitem is None:
                 continue
@@ -263,11 +275,18 @@ class DotToQtGenerator():
             if node.get_name() in ('graph', 'node', 'empty'):
                 continue
             nodes[node.get_name()] = self.getNodeItemForNode(node, highlight_level)
+        return nodes
+
+    def parse_edges(self, graph, nodes, highlight_level, same_label_siblings):
+        """Recursively searches all edges inside the graph and all subgraphs."""
+        # let pydot imitate pygraphviz api
+        graph.subgraphs_iter = graph.get_subgraph_list
+        graph.edges_iter = graph.get_edge_list
 
         edges = {}
-
         for subgraph in graph.subgraphs_iter():
             subgraph.edges_iter = subgraph.get_edge_list
+            edges.update(self.parse_edges(subgraph, nodes, highlight_level, same_label_siblings))
             for edge in subgraph.edges_iter():
                 self.addEdgeItem(edge, nodes, edges,
                                  highlight_level=highlight_level,
@@ -278,4 +297,4 @@ class DotToQtGenerator():
                              highlight_level=highlight_level,
                              same_label_siblings=same_label_siblings)
 
-        return nodes, edges
+        return edges
