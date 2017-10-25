@@ -2,6 +2,19 @@
 Changelog for package qt_gui_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.7 (2017-10-25)
+------------------
+
+0.3.6 (2017-08-03)
+------------------
+* add missing run_depend on TinyXML (`#100 <https://github.com/ros-visualization/qt_gui_core/issues/100>`_)
+* add TinyXML to target_link_libraries (`#99 <https://github.com/ros-visualization/qt_gui_core/issues/99>`_)
+
+0.3.5 (2017-07-27)
+------------------
+* find and depend on tinyxml, add missing tinyxml include (`#96 <https://github.com/ros-visualization/qt_gui_core/issues/96>`_, `#97 <https://github.com/ros-visualization/qt_gui_core/issues/97>`_)
+* fix relative import for Python3 (`#89 <https://github.com/ros-visualization/qt_gui_core/pull/89>`_)
+
 0.3.4 (2017-01-24)
 ------------------
 
