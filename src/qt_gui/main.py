@@ -87,6 +87,9 @@ class Main(object):
         if not standalone:
             common_group.add_argument('-l', '--lock-perspective', dest='lock_perspective', action='store_true',
                 help='lock the GUI to the used perspective (hide menu bar and close buttons of plugins)')
+            common_group.add_argument('-ht', '--hide-title', dest='hide_title', action='store_true',
+                help='hide the title label, the icon, and the help button (combine with -l and -f to eliminate the entire title bar and reclaim the space)')
+
             common_group.add_argument('-m', '--multi-process', dest='multi_process', default=False, action='store_true',
                 help='use separate processes for each plugin instance (currently only supported under X11)')
             common_group.add_argument('-p', '--perspective', dest='perspective', type=str, metavar='PERSPECTIVE',
@@ -204,6 +207,7 @@ class Main(object):
         if standalone:
             self._options.freeze_layout = False
             self._options.lock_perspective = False
+            self._options.hide_title = False
             self._options.multi_process = False
             self._options.perspective = None
             self._options.perspective_file = None
@@ -391,12 +395,15 @@ class Main(object):
             timer.start(500)
             timer.timeout.connect(lambda: None)
 
-            menu_bar = main_window.menuBar()
-            file_menu = menu_bar.addMenu(menu_bar.tr('&File'))
-            action = QAction(file_menu.tr('&Quit'), file_menu)
-            action.setIcon(QIcon.fromTheme('application-exit'))
-            action.triggered.connect(main_window.close)
-            file_menu.addAction(action)
+            if not self._options.lock_perspective:
+                menu_bar = main_window.menuBar()
+                file_menu = menu_bar.addMenu(menu_bar.tr('&File'))
+                action = QAction(file_menu.tr('&Quit'), file_menu)
+                action.setIcon(QIcon.fromTheme('application-exit'))
+                action.triggered.connect(main_window.close)
+                file_menu.addAction(action)
+            else:
+                menu_bar = None
 
         else:
             app.setQuitOnLastWindowClosed(False)
@@ -431,14 +438,14 @@ class Main(object):
 
         if main_window is not None:
             container_manager = ContainerManager(main_window, plugin_manager)
-            plugin_manager.set_main_window(main_window, menu_bar if not self._options.lock_perspective else None, container_manager)
+            plugin_manager.set_main_window(main_window, menu_bar, container_manager)
 
             if not self._options.freeze_layout:
                 minimized_dock_widgets_toolbar = MinimizedDockWidgetsToolbar(container_manager, main_window)
                 main_window.addToolBar(Qt.BottomToolBarArea, minimized_dock_widgets_toolbar)
                 plugin_manager.set_minimized_dock_widgets_toolbar(minimized_dock_widgets_toolbar)
 
-        if menu_bar is not None and not self._options.lock_perspective:
+        if menu_bar is not None:
             perspective_menu = menu_bar.addMenu(menu_bar.tr('P&erspectives'))
             perspective_manager.set_menu(perspective_menu)
 
@@ -470,7 +477,7 @@ class Main(object):
         if main_window is not None and menu_bar is not None:
             about_handler = AboutHandler(context.qtgui_path, main_window)
             help_menu = menu_bar.addMenu(menu_bar.tr('&Help'))
-            action = QAction(file_menu.tr('&About'), help_menu)
+            action = QAction(help_menu.tr('&About'), help_menu)
             action.setIcon(QIcon.fromTheme('help-about'))
             action.triggered.connect(about_handler.show)
             help_menu.addAction(action)
@@ -502,7 +509,7 @@ class Main(object):
             elif len(plugins) > 1:
                 print('qt_gui_main() found multiple plugins matching "%s"\n%s' % (plugin, '\n'.join(plugins.values())))
                 return 1
-            plugin = plugins.keys()[0]
+            plugin = list(plugins.keys())[0]
 
         qDebug('QtBindingHelper using %s' % QT_BINDING)
 
@@ -520,7 +527,7 @@ class Main(object):
             if plugin:
                 perspective_manager.set_perspective(plugin, hide_and_without_plugin_changes=True)
             elif self._options.perspective_file:
-                perspective_manager.import_perspective_from_file(self._options.perspective_file, perspective_manager.HIDDEN_PREFIX + '__cli_perspective_from_file')
+                perspective_manager.import_perspective_from_file(self._options.perspective_file, perspective_manager.HIDDEN_PREFIX + os.path.basename(self._options.perspective_file))
             else:
                 perspective_manager.set_perspective(self._options.perspective)
 
