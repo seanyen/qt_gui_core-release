@@ -35,8 +35,6 @@ import pyparsing
 pyparsing._noncomma = "".join([c for c in pyparsing.printables if c != ","])
 import pydot
 
-import codecs
-
 from python_qt_binding.QtCore import QPointF, QRectF
 from python_qt_binding.QtGui import QColor
 
@@ -70,7 +68,7 @@ class DotToQtGenerator():
     def getNodeItemForSubgraph(self, subgraph, highlight_level, scene=None):
         # let pydot imitate pygraphviz api
         attr = {}
-        for name in subgraph.get_attributes().keys():
+        for name in subgraph.get_attributes().iterkeys():
             value = get_unquoted(subgraph, name)
             attr[name] = value
         obj_dic = subgraph.__getattribute__("obj_dict")
@@ -123,7 +121,7 @@ class DotToQtGenerator():
         """
         # let pydot imitate pygraphviz api
         attr = {}
-        for name in node.get_attributes().keys():
+        for name in node.get_attributes().iterkeys():
             value = get_unquoted(node, name)
             attr[name] = value
         obj_dic = node.__getattribute__("obj_dict")
@@ -141,8 +139,7 @@ class DotToQtGenerator():
         if name is None:
             print("Error, no label defined for node with attr: %s" % node.attr)
             return None
-
-        name = codecs.escape_decode(name)[0].decode('utf-8')
+        name = name.decode('string_escape')
 
         # decrease rect by one so that edges do not reach inside
         bb_width = node.attr.get('width', len(name) / 5)
@@ -196,7 +193,7 @@ class DotToQtGenerator():
         if edge_pos is None:
             return
         if label is not None:
-            label = codecs.escape_decode(label)[0].decode('utf-8')
+            label = label.decode('string_escape')
 
         penwidth = int(edge.attr.get('penwidth', 1))
 
@@ -247,7 +244,7 @@ class DotToQtGenerator():
         # layout graph
         if dotcode is None:
             return {}, {}
-        graph = pydot.graph_from_dot_data(dotcode)
+        graph = pydot.graph_from_dot_data(dotcode.encode("ascii", "ignore"))
         if isinstance(graph, list):
             graph = graph[0]
 
@@ -262,6 +259,8 @@ class DotToQtGenerator():
         """Recursively searches all nodes inside the graph and all subgraphs."""
         # let pydot imitate pygraphviz api
         graph.nodes_iter = graph.get_node_list
+        graph.edges_iter = graph.get_edge_list
+
         graph.subgraphs_iter = graph.get_subgraph_list
 
         nodes = {}
@@ -292,10 +291,12 @@ class DotToQtGenerator():
         graph.subgraphs_iter = graph.get_subgraph_list
         graph.edges_iter = graph.get_edge_list
 
-        edges = {}
+        edges = {} # Empty dictionary
+
         for subgraph in graph.subgraphs_iter():
             subgraph.edges_iter = subgraph.get_edge_list
-            edges.update(self.parse_edges(subgraph, nodes, highlight_level, same_label_siblings, scene=scene))
+            edges.update(self.parse_edges(subgraph, nodes, highlight_level,
+                same_label_siblings, scene=scene)) # Get edges of subgraph
             for edge in subgraph.edges_iter():
                 self.addEdgeItem(edge, nodes, edges,
                                  highlight_level=highlight_level,

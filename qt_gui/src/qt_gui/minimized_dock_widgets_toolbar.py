@@ -29,8 +29,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from python_qt_binding.QtCore import QSignalMapper, Qt
-from python_qt_binding.QtGui import QIcon
-from python_qt_binding.QtWidgets import QAction, QToolBar, QWidget
+from python_qt_binding.QtGui import QAction, QIcon, QToolBar, QWidget
 
 
 class MinimizedDockWidgetsToolbar(QToolBar):

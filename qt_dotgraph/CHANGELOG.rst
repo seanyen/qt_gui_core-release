@@ -2,45 +2,18 @@
 Changelog for package qt_dotgraph
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.3.8 (2017-11-03)
-------------------
-* add recursive subgraph parsing, box3d shape, graphics items now immediately parented (`#87 <https://github.com/ros-visualization/qt_gui_core/issues/87>`_)
+0.2.33 (2018-05-22)
+-------------------
+* limited backport of recursive subgraph parsing (`#117 <https://github.com/ros-visualization/qt_gui_core/issues/117>`_)
 
-0.3.7 (2017-10-25)
-------------------
-* Fix for Python 3 compatibility (`#106 <https://github.com/ros-visualization/qt_gui_core/issues/106>`_)
-
-0.3.6 (2017-08-03)
-------------------
-
-0.3.5 (2017-07-27)
-------------------
-* avoid collision of topic nodes with / and \_ (`#95 <https://github.com/ros-visualization/qt_gui_core/pull/95>`_)
-* small fixes for Python3 compatibility (`#88 <https://github.com/ros-visualization/qt_gui_core/pull/88>`_)
-* remove color item added unintentionally (`#86 <https://github.com/ros-visualization/qt_gui_core/pull/86>`_)
-* fix missing label coloring on hover (`#85 <https://github.com/ros-visualization/qt_gui_core/pull/85>`_)
-* parse subgraphs recursively (`#72 <https://github.com/ros-visualization/qt_gui_core/issues/72>`_)
-
-0.3.4 (2017-01-24)
-------------------
-* use Python 3 compatible syntax (`#81 <https://github.com/ros-visualization/qt_gui_core/pull/81>`_)
+0.2.32 (2017-01-27)
+-------------------
 * fix label size in dot graphs (`#75 <https://github.com/ros-visualization/qt_gui_core/pull/75>`_)
-
-0.3.3 (2016-09-19)
-------------------
 * work with newer pydot versions (`#70 <https://github.com/ros-visualization/qt_gui_core/pull/70>`_)
+
+0.2.31 (2016-11-02)
+-------------------
 * make penwidth attribute optional
-
-0.3.2 (2016-04-21)
-------------------
-
-0.3.1 (2016-04-18)
-------------------
-* fix imports with Qt 5
-
-0.3.0 (2016-04-01)
-------------------
-* switch to Qt5 (`#64 <https://github.com/ros-visualization/qt_gui_core/pull/64>`_)
 
 0.2.30 (2016-03-30)
 -------------------

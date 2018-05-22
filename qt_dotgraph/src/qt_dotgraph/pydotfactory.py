@@ -31,10 +31,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from distutils.version import LooseVersion
-try:
-    from urllib.request import quote
-except ImportError:
-    from urllib import quote
+import urllib
 
 # work around for https://bugs.launchpad.net/ubuntu/+source/pydot/+bug/1321135
 import pyparsing
@@ -56,8 +53,8 @@ class PydotFactory():
         return ret
 
     def escape_name(self, name):
-        ret = quote(name.strip())
-        ret = ret.replace('/', '__')
+        ret = urllib.quote(name.strip())
+        ret = ret.replace('/', '_')
         ret = ret.replace('%', '_')
         ret = ret.replace('-', '_')
         return self.escape_label(ret)
@@ -128,7 +125,7 @@ class PydotFactory():
         """
         if subgraphname is None or subgraphname == '':
             raise ValueError('Empty subgraph name')
-        g = pydot.Cluster(self.escape_name(subgraphname), rank=rank, rankdir=rankdir, simplify=simplify)
+        g = pydot.Cluster(self.escape_name(subgraphname), rank=rank, rankdir=rankdir, simplify=simplify, color=color)
         if 'set_style' in g.__dict__:
             g.set_style(style)
         if 'set_shape' in g.__dict__:
@@ -166,7 +163,5 @@ class PydotFactory():
 
     def create_dot(self, graph):
         dot = graph.create_dot()
-        if type(dot) != str:
-            dot = dot.decode()
         # sadly pydot generates line wraps cutting between numbers
         return dot.replace("\\\n", "")

@@ -2,39 +2,14 @@
 Changelog for package qt_gui_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.3.8 (2017-11-03)
-------------------
+0.2.33 (2018-05-22)
+-------------------
 
-0.3.7 (2017-10-25)
-------------------
+0.2.32 (2017-01-27)
+-------------------
 
-0.3.6 (2017-08-03)
-------------------
-* add missing run_depend on TinyXML (`#100 <https://github.com/ros-visualization/qt_gui_core/issues/100>`_)
-* add TinyXML to target_link_libraries (`#99 <https://github.com/ros-visualization/qt_gui_core/issues/99>`_)
-
-0.3.5 (2017-07-27)
-------------------
-* find and depend on tinyxml, add missing tinyxml include (`#96 <https://github.com/ros-visualization/qt_gui_core/issues/96>`_, `#97 <https://github.com/ros-visualization/qt_gui_core/issues/97>`_)
-* fix relative import for Python3 (`#89 <https://github.com/ros-visualization/qt_gui_core/pull/89>`_)
-
-0.3.4 (2017-01-24)
-------------------
-
-0.3.3 (2016-09-19)
-------------------
-
-0.3.2 (2016-04-21)
-------------------
-
-0.3.1 (2016-04-18)
-------------------
-* more fixes for shiboken 2
-* add missing Qt include directories
-
-0.3.0 (2016-04-01)
-------------------
-* switch to Qt5 (`#64 <https://github.com/ros-visualization/qt_gui_core/pull/64>`_)
+0.2.31 (2016-11-02)
+-------------------
 
 0.2.30 (2016-03-30)
 -------------------

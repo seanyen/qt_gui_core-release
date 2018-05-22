@@ -29,9 +29,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from python_qt_binding.QtCore import QPointF, Qt
-from python_qt_binding.QtGui import QBrush, QPainterPath, QPen, QPolygonF
-from python_qt_binding.QtWidgets import QGraphicsPathItem, QGraphicsPolygonItem, QGraphicsSimpleTextItem
-
+from python_qt_binding.QtGui import QBrush, QGraphicsPathItem, QGraphicsPolygonItem, QGraphicsSimpleTextItem, QPainterPath, QPen, QPolygonF
 
 from .graph_item import GraphItem
 
@@ -182,7 +180,6 @@ class EdgeItem(GraphItem):
     def _handle_hoverEnterEvent(self, event):
         # hovered edge item in red
         self.set_node_color(self._COLOR_RED)
-        self.set_label_color(self._COLOR_RED)
 
         if self._highlight_level > 1:
             if self.from_node != self.to_node:
@@ -201,7 +198,6 @@ class EdgeItem(GraphItem):
 
     def _handle_hoverLeaveEvent(self, event):
         self.set_node_color()
-        self.set_label_color()
         if self._highlight_level > 1:
             self.from_node.set_node_color()
             self.to_node.set_node_color()
