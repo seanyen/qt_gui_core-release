@@ -1,3 +1,32 @@
+## qt_gui_core (indigo) - 0.2.33-0
+
+The packages in the `qt_gui_core` repository were released into the `indigo` distro by running `/usr/bin/bloom-release -r indigo -t indigo qt_gui_core` on `Tue, 22 May 2018 22:59:25 -0000`
+
+These packages were released:
+- `qt_dotgraph`
+- `qt_gui`
+- `qt_gui_app`
+- `qt_gui_core`
+- `qt_gui_cpp`
+- `qt_gui_py_common`
+
+Version of package(s) in repository `qt_gui_core`:
+
+- upstream repository: https://github.com/ros-visualization/qt_gui_core.git
+- release repository: https://github.com/ros-gbp/qt_gui_core-release.git
+- rosdistro version: `0.2.32-0`
+- old version: `0.2.32-0`
+- new version: `0.2.33-0`
+
+Versions of tools used:
+
+- bloom version: `0.6.4`
+- catkin_pkg version: `0.4.2`
+- rosdep version: `0.12.2`
+- rosdistro version: `0.6.8`
+- vcstools version: `0.1.40`
+
+
 ## qt_gui_core (melodic) - 0.3.8-0
 
 The packages in the `qt_gui_core` repository were released into the `melodic` distro by running `/usr/bin/bloom-release -r melodic -t melodic qt_gui_core` on `Wed, 21 Mar 2018 15:38:57 -0000`
