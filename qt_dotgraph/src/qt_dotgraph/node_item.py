@@ -33,7 +33,8 @@ from __future__ import print_function
 import sys
 
 from python_qt_binding.QtCore import Qt
-from python_qt_binding.QtGui import QBrush, QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsSimpleTextItem, QPainterPath, QPen
+from python_qt_binding.QtGui import QBrush, QPainterPath, QPen
+from python_qt_binding.QtWidgets import QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsSimpleTextItem
 
 from .dot_shapes import QGraphicsBox3dItem
 from .graph_item import GraphItem
@@ -126,12 +127,14 @@ class NodeItem(GraphItem):
             incoming_nodes = set()
             for incoming_edge in self._incoming_edges.difference(cyclic_edges):
                 incoming_edge.set_node_color(self._COLOR_BLUE)
+                incoming_edge.set_label_color(self._COLOR_BLUE)
                 if incoming_edge.from_node != self:
                     incoming_nodes.add(incoming_edge.from_node)
             # outgoing edges in green
             outgoing_nodes = set()
             for outgoing_edge in self._outgoing_edges.difference(cyclic_edges):
                 outgoing_edge.set_node_color(self._COLOR_GREEN)
+                outgoing_edge.set_label_color(self._COLOR_GREEN)
                 if outgoing_edge.to_node != self:
                     outgoing_nodes.add(outgoing_edge.to_node)
             # incoming/outgoing edges in teal
@@ -155,9 +158,11 @@ class NodeItem(GraphItem):
         if self._highlight_level > 1:
             for incoming_edge in self._incoming_edges:
                 incoming_edge.set_node_color()
+                incoming_edge.set_label_color()
                 if self._highlight_level > 2 and incoming_edge.from_node != self:
                     incoming_edge.from_node.set_node_color()
             for outgoing_edge in self._outgoing_edges:
                 outgoing_edge.set_node_color()
+                outgoing_edge.set_label_color()
                 if self._highlight_level > 2 and outgoing_edge.to_node != self:
                     outgoing_edge.to_node.set_node_color()

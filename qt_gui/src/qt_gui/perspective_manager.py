@@ -33,18 +33,27 @@ import os
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import QByteArray, qDebug, QObject, QSignalMapper, Signal, Slot
-from python_qt_binding.QtGui import QAction, QFileDialog, QIcon, QInputDialog, QMessageBox, QValidator
+from python_qt_binding.QtGui import QIcon, QValidator
+from python_qt_binding.QtWidgets import QAction, QFileDialog, QInputDialog, QMessageBox
 
 from .menu_manager import MenuManager
 from .settings import Settings
 from .settings_proxy import SettingsProxy
 
 
+def is_string(s):
+    """Check if the argument is a string which works for both Python 2 and 3."""
+    try:
+        return isinstance(s, basestring)
+    except NameError:
+        return isinstance(s, str)
+
+
 class PerspectiveManager(QObject):
 
     """Manager for perspectives associated with specific sets of `Settings`."""
 
-    perspective_changed_signal = Signal(basestring)
+    perspective_changed_signal = Signal(str)
     save_settings_signal = Signal(Settings, Settings)
     restore_settings_signal = Signal(Settings, Settings)
     restore_settings_without_plugin_changes_signal = Signal(Settings, Settings)
@@ -67,7 +76,7 @@ class PerspectiveManager(QObject):
 
         # get perspective list from settings
         self.perspectives = self._settings_proxy.value('', 'perspectives', [])
-        if isinstance(self.perspectives, basestring):
+        if is_string(self.perspectives):
             self.perspectives = [self.perspectives]
 
         self._current_perspective = None
@@ -75,6 +84,8 @@ class PerspectiveManager(QObject):
 
         self._callback = None
         self._callback_args = []
+
+        self._file_path = None
 
         if application_context.provide_app_dbus_interfaces:
             from .perspective_manager_dbus_interface import PerspectiveManagerDBusInterface
@@ -300,7 +311,9 @@ class PerspectiveManager(QObject):
             self._remove_action.setEnabled(False)
 
     def _on_import_perspective(self):
-        file_name, _ = QFileDialog.getOpenFileName(self._menu_manager.menu, self.tr('Import perspective from file'), None, self.tr('Perspectives (*.perspective)'))
+        file_name, _ = QFileDialog.getOpenFileName(
+            self._menu_manager.menu, self.tr('Import perspective from file'),
+            self._file_path, self.tr('Perspectives (*.perspective)'))
         if file_name is None or file_name == '':
             return
 
@@ -316,6 +329,7 @@ class PerspectiveManager(QObject):
         self.import_perspective_from_file(file_name, perspective_name)
 
     def import_perspective_from_file(self, path, perspective_name):
+        self._file_path = os.path.dirname(path)
         # create clean perspective
         if perspective_name in self.perspectives:
             self._remove_perspective(perspective_name)
@@ -343,9 +357,16 @@ class PerspectiveManager(QObject):
             self._set_dict_on_settings(groups[group], sub)
 
     def _on_export_perspective(self):
-        file_name, _ = QFileDialog.getSaveFileName(self._menu_manager.menu, self.tr('Export perspective to file'), self._current_perspective + '.perspective', self.tr('Perspectives (*.perspective)'))
+        save_file_name = os.path.join(self._file_path, self._current_perspective.lstrip(self.HIDDEN_PREFIX))
+        suffix = '.perspective'
+        if not save_file_name.endswith(suffix):
+            save_file_name += suffix
+        file_name, _ = QFileDialog.getSaveFileName(
+            self._menu_manager.menu, self.tr('Export perspective to file'),
+            save_file_name, self.tr('Perspectives (*.perspective)'))
         if file_name is None or file_name == '':
             return
+        self._file_path = os.path.dirname(file_name)
 
         # trigger save of perspective before export
         self._callback = self._on_export_perspective_continued
@@ -359,7 +380,7 @@ class PerspectiveManager(QObject):
 
         # write perspective data to file
         file_handle = open(file_name, 'w')
-        file_handle.write(json.dumps(data, indent=2))
+        file_handle.write(json.dumps(data, indent=2, separators=(',', ': ')))
         file_handle.close()
 
     def _get_dict_from_settings(self, settings):
@@ -399,11 +420,14 @@ class PerspectiveManager(QObject):
             # add pretty print for better readability
             characters = ''
             for i in range(1, value.size(), 2):
-                character = value.at(i)
-                # output all non-control characters
-                if character >= ' ' and character <= '~':
-                    characters += character
-                else:
+                try:
+                    character = value.at(i)
+                    # output all non-control characters
+                    if character >= ' ' and character <= '~':
+                        characters += character
+                    else:
+                        characters += ' '
+                except UnicodeDecodeError:
                     characters += ' '
             data['pretty-print'] = characters
 

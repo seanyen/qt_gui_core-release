@@ -77,8 +77,6 @@ class Main(object):
             help='choose Qt bindings to be used [pyqt|pyside]')
         common_group.add_argument('--clear-config', dest='clear_config', default=False, action='store_true',
             help='clear the configuration (including all perspectives and plugin settings)')
-        common_group.add_argument('-d', '--disable-init-threads', dest='disable_init_threads', default=False, action='store_true',
-            help='do not set Qt.AA_X11InitThreads')
         if not standalone:
             common_group.add_argument('-f', '--freeze-layout', dest='freeze_layout', action='store_true',
                 help='freeze the layout of the GUI (prevent rearranging widgets, disable undock/redock)')
@@ -89,8 +87,9 @@ class Main(object):
         if not standalone:
             common_group.add_argument('-l', '--lock-perspective', dest='lock_perspective', action='store_true',
                 help='lock the GUI to the used perspective (hide menu bar and close buttons of plugins)')
-            common_group.add_argument('-m', '--multi-process', dest='multi_process', default=False, action='store_true',
-                help='use separate processes for each plugin instance (currently only supported under X11)')
+            common_group.add_argument('-ht', '--hide-title', dest='hide_title', action='store_true',
+                help='hide the title label, the icon, and the help button (combine with -l and -f to eliminate the entire title bar and reclaim the space)')
+
             common_group.add_argument('-p', '--perspective', dest='perspective', type=str, metavar='PERSPECTIVE',
                 help='start with this named perspective')
             common_group.add_argument('--perspective-file', dest='perspective_file', type=str, metavar='PERSPECTIVE_FILE',
@@ -171,9 +170,7 @@ class Main(object):
 
     def create_application(self, argv):
         from python_qt_binding.QtCore import Qt
-        from python_qt_binding.QtGui import QApplication
-        if not self._options.disable_init_threads:
-            QApplication.setAttribute(Qt.AA_X11InitThreads, True)
+        from python_qt_binding.QtWidgets import QApplication
         app = QApplication(argv)
         app.setAttribute(Qt.AA_DontShowIconsInMenus, False)
         return app
@@ -196,6 +193,7 @@ class Main(object):
         parser = ArgumentParser(os.path.basename(Main.main_filename), add_help=False)
         self.add_arguments(parser, standalone=bool(standalone), plugin_argument_provider=plugin_argument_provider)
         self._options = parser.parse_args(arguments)
+        self._options.multi_process = False  # not supported anymore
 
         if standalone:
             # rerun parsing to separate common arguments from plugin specific arguments
@@ -208,7 +206,7 @@ class Main(object):
         if standalone:
             self._options.freeze_layout = False
             self._options.lock_perspective = False
-            self._options.multi_process = False
+            self._options.hide_title = False
             self._options.perspective = None
             self._options.perspective_file = None
             self._options.standalone_plugin = standalone
@@ -339,8 +337,9 @@ class Main(object):
         setattr(sys, 'SELECT_QT_BINDING', self._options.qt_binding)
         from python_qt_binding import QT_BINDING
 
-        from python_qt_binding.QtCore import qDebug, qInstallMsgHandler, QSettings, Qt, QtCriticalMsg, QtDebugMsg, QtFatalMsg, QTimer, QtWarningMsg
-        from python_qt_binding.QtGui import QAction, QIcon, QMenuBar
+        from python_qt_binding.QtCore import qDebug, qInstallMessageHandler, QSettings, Qt, QtCriticalMsg, QtDebugMsg, QtFatalMsg, QTimer, QtWarningMsg
+        from python_qt_binding.QtGui import QIcon
+        from python_qt_binding.QtWidgets import QAction, QMenuBar
 
         from .about_handler import AboutHandler
         from .composite_plugin_provider import CompositePluginProvider
@@ -352,21 +351,23 @@ class Main(object):
         from .perspective_manager import PerspectiveManager
         from .plugin_manager import PluginManager
 
-        def message_handler(type_, msg):
-            colored_output = 'TERM' in os.environ and 'ANSI_COLORS_DISABLED' not in os.environ
-            cyan_color = '\033[36m' if colored_output else ''
-            red_color = '\033[31m' if colored_output else ''
-            reset_color = '\033[0m' if colored_output else ''
-            if type_ == QtDebugMsg and self._options.verbose:
-                print(msg, file=sys.stderr)
-            elif type_ == QtWarningMsg:
-                print(cyan_color + msg + reset_color, file=sys.stderr)
-            elif type_ == QtCriticalMsg:
-                print(red_color + msg + reset_color, file=sys.stderr)
-            elif type_ == QtFatalMsg:
-                print(red_color + msg + reset_color, file=sys.stderr)
-                sys.exit(1)
-        qInstallMsgHandler(message_handler)
+        # TODO PySide2 segfaults when invoking this custom message handler atm
+        if QT_BINDING != 'pyside':
+            def message_handler(type_, context, msg):
+                colored_output = 'TERM' in os.environ and 'ANSI_COLORS_DISABLED' not in os.environ
+                cyan_color = '\033[36m' if colored_output else ''
+                red_color = '\033[31m' if colored_output else ''
+                reset_color = '\033[0m' if colored_output else ''
+                if type_ == QtDebugMsg and self._options.verbose:
+                    print(msg, file=sys.stderr)
+                elif type_ == QtWarningMsg:
+                    print(cyan_color + msg + reset_color, file=sys.stderr)
+                elif type_ == QtCriticalMsg:
+                    print(red_color + msg + reset_color, file=sys.stderr)
+                elif type_ == QtFatalMsg:
+                    print(red_color + msg + reset_color, file=sys.stderr)
+                    sys.exit(1)
+            qInstallMessageHandler(message_handler)
 
         app = self.create_application(argv)
 
@@ -392,20 +393,15 @@ class Main(object):
             timer.start(500)
             timer.timeout.connect(lambda: None)
 
-            # create own menu bar to share one menu bar on Mac
-            menu_bar = QMenuBar()
-            if 'darwin' in platform.platform().lower():
-                menu_bar.setNativeMenuBar(True)
-            else:
-                menu_bar.setNativeMenuBar(False)
             if not self._options.lock_perspective:
-                main_window.setMenuBar(menu_bar)
-
-            file_menu = menu_bar.addMenu(menu_bar.tr('&File'))
-            action = QAction(file_menu.tr('&Quit'), file_menu)
-            action.setIcon(QIcon.fromTheme('application-exit'))
-            action.triggered.connect(main_window.close)
-            file_menu.addAction(action)
+                menu_bar = main_window.menuBar()
+                file_menu = menu_bar.addMenu(menu_bar.tr('&File'))
+                action = QAction(file_menu.tr('&Quit'), file_menu)
+                action.setIcon(QIcon.fromTheme('application-exit'))
+                action.triggered.connect(main_window.close)
+                file_menu.addAction(action)
+            else:
+                menu_bar = None
 
         else:
             app.setQuitOnLastWindowClosed(False)
@@ -479,7 +475,7 @@ class Main(object):
         if main_window is not None and menu_bar is not None:
             about_handler = AboutHandler(context.qtgui_path, main_window)
             help_menu = menu_bar.addMenu(menu_bar.tr('&Help'))
-            action = QAction(file_menu.tr('&About'), help_menu)
+            action = QAction(help_menu.tr('&About'), help_menu)
             action.setIcon(QIcon.fromTheme('help-about'))
             action.triggered.connect(about_handler.show)
             help_menu.addAction(action)
@@ -507,11 +503,12 @@ class Main(object):
             plugins = plugin_manager.find_plugins_by_name(plugin)
             if len(plugins) == 0:
                 print('qt_gui_main() found no plugin matching "%s"' % plugin)
+                print('try passing the option "--force-discover"')
                 return 1
             elif len(plugins) > 1:
                 print('qt_gui_main() found multiple plugins matching "%s"\n%s' % (plugin, '\n'.join(plugins.values())))
                 return 1
-            plugin = plugins.keys()[0]
+            plugin = list(plugins.keys())[0]
 
         qDebug('QtBindingHelper using %s' % QT_BINDING)
 
@@ -529,7 +526,7 @@ class Main(object):
             if plugin:
                 perspective_manager.set_perspective(plugin, hide_and_without_plugin_changes=True)
             elif self._options.perspective_file:
-                perspective_manager.import_perspective_from_file(self._options.perspective_file, perspective_manager.HIDDEN_PREFIX + '__cli_perspective_from_file')
+                perspective_manager.import_perspective_from_file(self._options.perspective_file, perspective_manager.HIDDEN_PREFIX + os.path.basename(self._options.perspective_file))
             else:
                 perspective_manager.set_perspective(self._options.perspective)
 

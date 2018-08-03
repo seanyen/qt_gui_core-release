@@ -2,17 +2,52 @@
 Changelog for package qt_gui
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.2.33 (2018-05-22)
--------------------
+0.3.9 (2018-08-03)
+------------------
+* load and save perspective file path and name adjustments (`#118 <https://github.com/ros-visualization/qt_gui_core/issues/118>`_)
+* add hint to run with --force-discover, when no plugin found (`#119 <https://github.com/ros-visualization/qt_gui_core/issues/119>`_)
+* remove --multi-process command line argument (`#116 <https://github.com/ros-visualization/qt_gui_core/issues/116>`_)
+* avoid crash when a plugin in .perspective is not available (`#110 <https://github.com/ros-visualization/qt_gui_core/issues/110>`_)
 
-0.2.32 (2017-01-27)
--------------------
+0.3.8 (2017-11-03)
+------------------
+
+0.3.7 (2017-10-25)
+------------------
+* Hide the menu bar when using lock perspective (`#103 <https://github.com/ros-visualization/qt_gui_core/issues/103>`_)
+* Fix for Python 3 compatibility (`#104 <https://github.com/ros-visualization/qt_gui_core/issues/104>`_)
+
+0.3.6 (2017-08-03)
+------------------
+
+0.3.5 (2017-07-27)
+------------------
+* remove trailing spaces from exported perspective files (`#92 <https://github.com/ros-visualization/qt_gui_core/issues/92>`_)
+* fix perspective export with Python3 (`#91 <https://github.com/ros-visualization/qt_gui_core/pull/91>`_)
+* hide the remaining title bar elements not disabled by -l and -f (`#90 <https://github.com/ros-visualization/qt_gui_core/issues/90>`_)
+* use file name for rqt window title when loading a .perspective (`#84 <https://github.com/ros-visualization/qt_gui_core/pull/84>`_)
+
+0.3.4 (2017-01-24)
+------------------
+* use Python 3 compatible syntax (`#81 <https://github.com/ros-visualization/qt_gui_core/pull/81>`_)
 * fix leftover dock widgets when using --command-switch-perspective (`#80 <https://github.com/ros-visualization/qt_gui_core/pull/80>`_)
 * make finding new parent logic more robust (`#76 <https://github.com/ros-visualization/qt_gui_core/pull/76>`_)
 
-0.2.31 (2016-11-02)
--------------------
-* add cli option to disable Qt.AA_X11InitThreads (`#69 <https://github.com/ros-visualization/qt_gui_core/pull/69>`_)
+0.3.3 (2016-09-19)
+------------------
+* remove attribute AA_X11InitThreads which is obsolete in Qt 5
+
+0.3.2 (2016-04-21)
+------------------
+* only restore state on toolbars which have an object name (`#65 <https://github.com/ros-visualization/qt_gui_core/pull/65>`_)
+
+0.3.1 (2016-04-18)
+------------------
+* workaround bug (QTBUG-52582) in QMenu with Qt 5 (`ros-visualization/python_qt_binding#33 <https://github.com/ros-visualization/python_qt_binding/issues/33>`_)
+
+0.3.0 (2016-04-01)
+------------------
+* switch to Qt5 (`#64 <https://github.com/ros-visualization/qt_gui_core/pull/64>`_)
 
 0.2.30 (2016-03-30)
 -------------------
