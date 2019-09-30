@@ -46,6 +46,7 @@ class ConsoleTextEdit(QTextEdit):
     _prompt = ('$ ', '  ')  # prompt for single and multi line
 
     class TextEditColoredWriter:
+
         def __init__(self, text_edit, color):
             self._text_edit = text_edit
             self._color = color
@@ -78,7 +79,8 @@ class ConsoleTextEdit(QTextEdit):
         self._add_prompt()
 
     def _add_prompt(self):
-        self._comment_writer.write(self._prompt[self._multi_line] + self._multi_line_indent * self._multi_line_level)
+        self._comment_writer.write(
+            self._prompt[self._multi_line] + self._multi_line_indent * self._multi_line_level)
 
     def _clear_current_line(self, clear_prompt=False):
         # block being current row
@@ -133,7 +135,8 @@ class ConsoleTextEdit(QTextEdit):
 
             if event.key() in [Qt.Key_Backspace]:
                 # don't allow cursor to delete into prompt
-                if self.textCursor().positionInBlock() == prompt_length and not self.textCursor().hasSelection():
+                if (self.textCursor().positionInBlock() == prompt_length and
+                        not self.textCursor().hasSelection()):
                     return None
 
             if event.key() in [Qt.Key_Return, Qt.Key_Enter]:
@@ -143,7 +146,8 @@ class ConsoleTextEdit(QTextEdit):
                 self.setTextCursor(cursor)
 
                 self._history_index = -1
-                line = str(self.document().lastBlock().text())[prompt_length:].rstrip()  # remove prompt and trailing spaces
+                line = str(self.document().lastBlock().text())[
+                    prompt_length:].rstrip()  # remove prompt and trailing spaces
 
                 self.insertPlainText('\n')
                 if len(line) > 0:
