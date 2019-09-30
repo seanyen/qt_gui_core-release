@@ -34,15 +34,19 @@ import sys
 
 from python_qt_binding.QtCore import Qt
 from python_qt_binding.QtGui import QBrush, QPainterPath, QPen
-from python_qt_binding.QtWidgets import QGraphicsEllipseItem, QGraphicsRectItem, QGraphicsSimpleTextItem
+from python_qt_binding.QtWidgets import (QGraphicsEllipseItem,
+                                         QGraphicsRectItem,
+                                         QGraphicsSimpleTextItem)
 
-from .dot_shapes import QGraphicsBox3dItem
-from .graph_item import GraphItem
+from qt_dotgraph.dot_shapes import QGraphicsBox3dItem
+from qt_dotgraph.graph_item import GraphItem
 
 
 class NodeItem(GraphItem):
 
-    def __init__(self, highlight_level, bounding_box, label, shape, color=None, parent=None, label_pos=None, tooltip=None):
+    def __init__(
+            self, highlight_level, bounding_box, label, shape, color=None,
+            parent=None, label_pos=None, tooltip=None):
         super(NodeItem, self).__init__(highlight_level, parent)
 
         self._default_color = self._COLOR_BLACK if color is None else color
