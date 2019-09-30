@@ -32,11 +32,10 @@ import traceback
 
 from python_qt_binding.QtCore import qCritical
 
-from .plugin_provider import PluginProvider
+from qt_gui.plugin_provider import PluginProvider
 
 
 class CompositePluginProvider(PluginProvider):
-
     """Composite of multiple `PluginProvider`s."""
 
     def __init__(self, plugin_providers=None):
@@ -57,7 +56,9 @@ class CompositePluginProvider(PluginProvider):
             try:
                 plugin_descriptors = plugin_provider.discover(discovery_data)
             except Exception:
-                qCritical('CompositePluginProvider.discover() could not discover plugins from provider "%s":\n%s' % (type(plugin_provider), traceback.format_exc()))
+                qCritical(
+                    'CompositePluginProvider.discover() could not discover plugins from '
+                    'provider "%s":\n%s' % (type(plugin_provider), traceback.format_exc()))
             else:
                 self._discovered_plugins[plugin_provider] = plugin_descriptors
                 discovered_plugins += plugin_descriptors
