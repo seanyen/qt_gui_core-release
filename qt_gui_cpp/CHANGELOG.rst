@@ -2,6 +2,9 @@
 Changelog for package qt_gui_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.13 (2019-09-30)
+-------------------
+
 0.3.12 (2019-09-30)
 -------------------
 * [Windows] Add missing DLL exports for qt_gui_cpp (`#170 <https://github.com/ros-visualization/qt_gui_core/issues/170>`_)
