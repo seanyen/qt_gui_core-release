@@ -32,7 +32,6 @@ import dbus
 
 
 class SettingsProxyDBusService(dbus.service.Object):
-
     """DBus service of a 'Settings' instance."""
 
     def __init__(self, object_path):
@@ -81,7 +80,9 @@ class SettingsProxyDBusService(dbus.service.Object):
         # transform DBus types to Python types to work with Pickle
         if isinstance(value, dbus.Boolean):
             value = bool(value)
-        elif isinstance(value, (dbus.Byte, dbus.Int16, dbus.Int32, dbus.Int64, dbus.UInt16, dbus.UInt32, dbus.UInt64)):
+        elif isinstance(value,
+                        (dbus.Byte, dbus.Int16, dbus.Int32, dbus.Int64,
+                            dbus.UInt16, dbus.UInt32, dbus.UInt64)):
             value = int(value)
         elif isinstance(value, dbus.Double):
             value = float(value)
