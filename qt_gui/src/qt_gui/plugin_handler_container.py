@@ -28,22 +28,23 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .dock_widget_container import DockWidgetContainer
-from .plugin_handler import PluginHandler
-from .window_changed_signaler import WindowChangedSignaler
+from qt_gui.dock_widget_container import DockWidgetContainer
+from qt_gui.plugin_handler import PluginHandler
+from qt_gui.window_changed_signaler import WindowChangedSignaler
 
 
 class PluginHandlerContainer(PluginHandler):
-
     """Handler for creating a container."""
 
     def __init__(self, parent, main_window, instance_id, application_context, container_manager):
-        super(PluginHandlerContainer, self).__init__(parent, main_window, instance_id, application_context, container_manager)
+        super(PluginHandlerContainer, self).__init__(
+            parent, main_window, instance_id, application_context, container_manager)
         self.setObjectName('PluginHandlerContainer')
         self._container = None
 
     def _load(self):
-        self._container = DockWidgetContainer(self._container_manager, self._instance_id.serial_number)
+        self._container = DockWidgetContainer(
+            self._container_manager, self._instance_id.serial_number)
         self._container.setObjectName(self._instance_id.tidy_str())
         title = self.tr('Container')
         if self._instance_id.serial_number > 1:
