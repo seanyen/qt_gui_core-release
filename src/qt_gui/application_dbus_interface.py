@@ -30,16 +30,16 @@
 
 import os
 
-from dbus.service import BusName, Object
 import dbus
+from dbus.service import BusName, Object
 
 
 class ApplicationDBusInterface(Object):
-
     """
     Application DBus service available on the named bus name.
-    The PID of the application instance is used to identify the unique bus name where further services are provided
-    i.e. `PerspectiveManagerDBusInterface`, `PluginManagerDBusInterface`.
+
+    The PID of the application instance is used to identify the unique bus name where further
+    services are provided i.e. `PerspectiveManagerDBusInterface`, `PluginManagerDBusInterface`.
     """
 
     def __init__(self, named_bus_name):
