@@ -1,3 +1,4 @@
+release_repo_url: git@github.com:ros-gbp/qt_gui_core-release
 tracks:
   groovy:
     actions:
