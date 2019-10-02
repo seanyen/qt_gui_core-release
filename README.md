@@ -1,3 +1,32 @@
+## qt_gui_core (melodic) - 0.3.13-2
+
+The packages in the `qt_gui_core` repository were released into the `melodic` distro by running `/home/steven/osrf/venv.bloom/bin/bloom-release -r melodic qt_gui_core --override-release-repository-push-url git@github.com:ros-gbp/qt_gui_core-release` on `Wed, 02 Oct 2019 18:02:01 -0000`
+
+These packages were released:
+- `qt_dotgraph`
+- `qt_gui`
+- `qt_gui_app`
+- `qt_gui_core`
+- `qt_gui_cpp`
+- `qt_gui_py_common`
+
+Version of package(s) in repository `qt_gui_core`:
+
+- upstream repository: https://github.com/ros-visualization/qt_gui_core.git
+- release repository: https://github.com/ros-gbp/qt_gui_core-release.git
+- rosdistro version: `0.3.13-1`
+- old version: `0.3.13-1`
+- new version: `0.3.13-2`
+
+Versions of tools used:
+
+- bloom version: `0.8.0.dev0`
+- catkin_pkg version: `0.4.3`
+- rosdep version: `0.15.0`
+- rosdistro version: `0.7.1`
+- vcstools version: `0.1.40`
+
+
 ## qt_gui_core (melodic) - 0.3.13-1
 
 The packages in the `qt_gui_core` repository were released into the `melodic` distro by running `/usr/bin/bloom-release -r melodic -t melodic qt_gui_core` on `Mon, 30 Sep 2019 22:46:41 -0000`
