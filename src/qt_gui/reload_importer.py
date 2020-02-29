@@ -31,14 +31,17 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import __builtin__
+from importlib import reload
 import os
 import sys
 
 
 class ReloadImporter:
+    """
+    Overrides the builtin import and automatically reloads all modules.
 
-    """Overrides the builtin import and automatically reloads all modules which are imported from on
-    of the reload paths after calling enable."""
+    Modules are imported from one of the reload paths after calling enable.
+    """
 
     def __init__(self):
         self._excluded_modules = sys.modules.keys()
@@ -55,7 +58,7 @@ class ReloadImporter:
 
     def add_reload_path(self, path):
         if self._reload_paths is None:
-            self._reload_paths = tuple()
+            self._reload_paths = ()
         self._reload_paths += (os.path.abspath(path),)
 
     def _reload(self, module):
@@ -70,12 +73,13 @@ class ReloadImporter:
             self._import_stack.pop()
 
     def _reimport(self, name, globals_=None, locals_=None, fromlist=None, level=-1):
-        module = self._import(name, globals_, locals_, fromlist if not None else [], level if not None else -1)
+        module = self._import(
+            name, globals_, locals_, fromlist if not None else [], level if not None else -1)
 
-        if module.__name__ not in self._excluded_modules and \
-            (self._reload_paths is None or \
-              (hasattr(module, '__file__') and len([p for p in self._reload_paths if module.__file__.startswith(p)]) > 0) \
-            ):
-            self._reload(module)
+        if module.__name__ not in self._excluded_modules:
+            if self._reload_paths is None or \
+                    (hasattr(module, '__file__') and
+                     len([p for p in self._reload_paths if module.__file__.startswith(p)]) > 0):
+                self._reload(module)
 
         return module
