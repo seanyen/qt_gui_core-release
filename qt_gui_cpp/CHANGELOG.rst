@@ -2,6 +2,32 @@
 Changelog for package qt_gui_cpp
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.17 (2020-02-28)
+-------------------
+* bump CMake minimum version to avoid CMP0048 warning (`#206 <https://github.com/ros-visualization/qt_gui_core/issues/206>`_)
+
+0.3.16 (2019-12-04)
+-------------------
+
+0.3.15 (2019-10-23)
+-------------------
+* rework for Windows linkage (`#188 <https://github.com/ros-visualization/qt_gui_core/issues/188>`_)
+
+0.3.14 (2019-10-03)
+-------------------
+* fix compile regression on armhf (`#187 <https://github.com/ros-visualization/qt_gui_core/issues/187>`_, regression from 0.3.12)
+
+0.3.13 (2019-09-30)
+-------------------
+
+0.3.12 (2019-09-30)
+-------------------
+* [Windows] Add missing DLL exports for qt_gui_cpp (`#170 <https://github.com/ros-visualization/qt_gui_core/issues/170>`_)
+* cherry-pick windows port from crystal-devel (`#173 <https://github.com/ros-visualization/qt_gui_core/issues/173>`_)
+* remove obsolete maintainer (`#160 <https://github.com/ros-visualization/qt_gui_core/issues/160>`_)
+* changes for flake8 and ROS2 compatible style changes (`#130 <https://github.com/ros-visualization/qt_gui_core/issues/130>`_)
+* autopep8 (`#123 <https://github.com/ros-visualization/qt_gui_core/issues/123>`_)
+
 0.3.11 (2018-08-29)
 -------------------
 

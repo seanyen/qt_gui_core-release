@@ -36,9 +36,9 @@ from python_qt_binding.QtCore import QByteArray, qDebug, QObject, QSignalMapper,
 from python_qt_binding.QtGui import QIcon, QValidator
 from python_qt_binding.QtWidgets import QAction, QFileDialog, QInputDialog, QMessageBox
 
-from .menu_manager import MenuManager
-from .settings import Settings
-from .settings_proxy import SettingsProxy
+from qt_gui.menu_manager import MenuManager
+from qt_gui.settings import Settings
+from qt_gui.settings_proxy import SettingsProxy
 
 
 def is_string(s):
@@ -50,7 +50,6 @@ def is_string(s):
 
 
 class PerspectiveManager(QObject):
-
     """Manager for perspectives associated with specific sets of `Settings`."""
 
     perspective_changed_signal = Signal(str)
@@ -88,7 +87,7 @@ class PerspectiveManager(QObject):
         self._file_path = os.getcwd()
 
         if application_context.provide_app_dbus_interfaces:
-            from .perspective_manager_dbus_interface import PerspectiveManagerDBusInterface
+            from qt_gui.perspective_manager_dbus_interface import PerspectiveManagerDBusInterface
             self._dbus_server = PerspectiveManagerDBusInterface(self, application_context)
 
     def set_menu(self, menu):
@@ -130,20 +129,25 @@ class PerspectiveManager(QObject):
             name = self._settings_proxy.value('', 'current-perspective', 'Default')
         elif hide_and_without_plugin_changes:
             name = self.HIDDEN_PREFIX + name
-        self.switch_perspective(name, save_before=not hide_and_without_plugin_changes, without_plugin_changes=hide_and_without_plugin_changes)
+        self.switch_perspective(name, save_before=not hide_and_without_plugin_changes,
+                                without_plugin_changes=hide_and_without_plugin_changes)
 
     @Slot(str)
     @Slot(str, bool)
     @Slot(str, bool, bool)
-    def switch_perspective(self, name, settings_changed=True, save_before=True, without_plugin_changes=False):
-        if save_before and self._global_settings is not None and self._perspective_settings is not None:
+    def switch_perspective(
+            self, name, settings_changed=True, save_before=True, without_plugin_changes=False):
+        if save_before and \
+                self._global_settings is not None and \
+                self._perspective_settings is not None:
             self._callback = self._switch_perspective
             self._callback_args = [name, settings_changed, save_before]
             self.save_settings_signal.emit(self._global_settings, self._perspective_settings)
         else:
             self._switch_perspective(name, settings_changed, save_before, without_plugin_changes)
 
-    def _switch_perspective(self, name, settings_changed, save_before, without_plugin_changes=False):
+    def _switch_perspective(
+            self, name, settings_changed, save_before, without_plugin_changes=False):
         # convert from unicode
         name = str(name.replace('/', '__'))
 
@@ -169,9 +173,11 @@ class PerspectiveManager(QObject):
         self.perspective_changed_signal.emit(self._current_perspective.lstrip(self.HIDDEN_PREFIX))
         if settings_changed:
             if not without_plugin_changes:
-                self.restore_settings_signal.emit(self._global_settings, self._perspective_settings)
+                self.restore_settings_signal.emit(
+                    self._global_settings, self._perspective_settings)
             else:
-                self.restore_settings_without_plugin_changes_signal.emit(self._global_settings, self._perspective_settings)
+                self.restore_settings_without_plugin_changes_signal.emit(
+                    self._global_settings, self._perspective_settings)
 
     def save_settings_completed(self):
         if self._callback is not None:
@@ -189,7 +195,8 @@ class PerspectiveManager(QObject):
         if name is not None:
             clone_perspective = self._create_perspective_dialog.clone_checkbox.isChecked()
             self._create_perspective(name, clone_perspective)
-            self.switch_perspective(name, settings_changed=not clone_perspective, save_before=False)
+            self.switch_perspective(
+                name, settings_changed=not clone_perspective, save_before=False)
 
     def _choose_new_perspective_name(self, show_cloning=True):
         # input dialog for new perspective name
@@ -199,6 +206,7 @@ class PerspectiveManager(QObject):
 
             # custom validator preventing forward slashs
             class CustomValidator(QValidator):
+
                 def __init__(self, parent=None):
                     super(CustomValidator, self).__init__(parent)
 
@@ -224,12 +232,19 @@ class PerspectiveManager(QObject):
         if return_value == self._create_perspective_dialog.Rejected:
             return
 
-        name = str(self._create_perspective_dialog.perspective_name_edit.text()).lstrip(self.HIDDEN_PREFIX)
+        name = str(self._create_perspective_dialog.perspective_name_edit.text()).lstrip(
+            self.HIDDEN_PREFIX)
         if name == '':
-            QMessageBox.warning(self._menu_manager.menu, self.tr('Empty perspective name'), self.tr('The name of the perspective must be non-empty.'))
+            QMessageBox.warning(
+                self._menu_manager.menu,
+                self.tr('Empty perspective name'),
+                self.tr('The name of the perspective must be non-empty.'))
             return
         if name in self.perspectives:
-            QMessageBox.warning(self._menu_manager.menu, self.tr('Duplicate perspective name'), self.tr('A perspective with the same name already exists.'))
+            QMessageBox.warning(
+                self._menu_manager.menu,
+                self.tr('Duplicate perspective name'),
+                self.tr('A perspective with the same name already exists.'))
             return
         return name
 
@@ -237,7 +252,8 @@ class PerspectiveManager(QObject):
         # convert from unicode
         name = str(name)
         if name.find('/') != -1:
-            raise RuntimeError('PerspectiveManager._create_perspective() name must not contain forward slashs (/)')
+            raise RuntimeError(
+                'PerspectiveManager._create_perspective() name cannot contain forward slashes (/)')
 
         qDebug('PerspectiveManager._create_perspective(%s, %s)' % (name, clone_perspective))
         # add to list of perspectives
@@ -283,7 +299,9 @@ class PerspectiveManager(QObject):
         # input dialog to choose perspective to be removed
         names = list(self.perspectives)
         names.remove(self._current_perspective)
-        name, return_value = QInputDialog.getItem(self._menu_manager.menu, self._menu_manager.tr('Remove perspective'), self._menu_manager.tr('Select the perspective'), names, 0, False)
+        name, return_value = QInputDialog.getItem(
+            self._menu_manager.menu, self._menu_manager.tr('Remove perspective'),
+            self._menu_manager.tr('Select the perspective'), names, 0, False)
         # convert from unicode
         name = str(name)
         if return_value == QInputDialog.Rejected:
@@ -337,7 +355,7 @@ class PerspectiveManager(QObject):
 
         # read perspective from file
         file_handle = open(path, 'r')
-        #data = eval(file_handle.read())
+        # data = eval(file_handle.read())
         data = json.loads(file_handle.read())
         self._convert_values(data, self._import_value)
 
@@ -357,7 +375,8 @@ class PerspectiveManager(QObject):
             self._set_dict_on_settings(groups[group], sub)
 
     def _on_export_perspective(self):
-        save_file_name = os.path.join(self._file_path, self._current_perspective.lstrip(self.HIDDEN_PREFIX))
+        save_file_name = os.path.join(
+            self._file_path, self._current_perspective.lstrip(self.HIDDEN_PREFIX))
         suffix = '.perspective'
         if not save_file_name.endswith(suffix):
             save_file_name += suffix
@@ -403,18 +422,20 @@ class PerspectiveManager(QObject):
             self._convert_values(groups[group], convert_function)
 
     def _import_value(self, value):
-        import QtCore  # @UnusedImport
+        import QtCore  # noqa: F401
         if value['type'] == 'repr':
             return eval(value['repr'])
         elif value['type'] == 'repr(QByteArray.hex)':
             return QByteArray.fromHex(eval(value['repr(QByteArray.hex)']))
-        raise RuntimeError('PerspectiveManager._import_value() unknown serialization type (%s)' % value['type'])
+        raise RuntimeError(
+            'PerspectiveManager._import_value() unknown serialization type (%s)' % value['type'])
 
     def _export_value(self, value):
         data = {}
         if value.__class__.__name__ == 'QByteArray':
             hex_value = value.toHex()
-            data['repr(QByteArray.hex)'] = self._strip_qt_binding_prefix(hex_value, repr(hex_value))
+            data['repr(QByteArray.hex)'] = \
+                self._strip_qt_binding_prefix(hex_value, repr(hex_value))
             data['type'] = 'repr(QByteArray.hex)'
 
             # add pretty print for better readability
@@ -438,7 +459,9 @@ class PerspectiveManager(QObject):
         # verify that serialized data can be deserialized correctly
         reimported = self._import_value(data)
         if reimported != value:
-            raise RuntimeError('PerspectiveManager._export_value() stored value can not be restored (%s)' % type(value))
+            raise RuntimeError(
+                'PerspectiveManager._export_value() stored value can not be restored (%s)' %
+                type(value))
 
         return data
 

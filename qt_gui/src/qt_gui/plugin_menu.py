@@ -28,19 +28,15 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import os
-
 from python_qt_binding.QtCore import QObject, QSignalMapper, Signal, Slot
-from python_qt_binding.QtGui import QIcon
 from python_qt_binding.QtWidgets import QAction, QMenu
 
-from .icon_loader import get_icon
-from .menu_manager import MenuManager
-from .plugin_instance_id import PluginInstanceId
+from qt_gui.icon_loader import get_icon
+from qt_gui.menu_manager import MenuManager
+from qt_gui.plugin_instance_id import PluginInstanceId
 
 
 class PluginMenu(QObject):
-
     """Menu of available plugins to load and running plugin instances to unload."""
 
     load_plugin_signal = Signal(str)
@@ -56,7 +52,8 @@ class PluginMenu(QObject):
         self._plugin_mapper = QSignalMapper(plugin_menu)
         self._plugin_mapper.mapped[str].connect(self.load_plugin_signal)
         self._running_menu_manager = MenuManager(running_menu)
-        action = QAction(' Hidden action to work around QTBUG-52582', self._running_menu_manager.menu)
+        action = QAction(
+            ' Hidden action to work around QTBUG-52582', self._running_menu_manager.menu)
         action.setVisible(False)
         self._running_menu_manager.add_item(action)
         self._running_mapper = QSignalMapper(running_menu)
@@ -105,7 +102,8 @@ class PluginMenu(QObject):
 
     def add_instance(self, plugin_descriptor, instance_id):
         action_attributes = plugin_descriptor.action_attributes()
-        action = QAction(self._get_instance_label(str(instance_id)), self._running_menu_manager.menu)
+        action = QAction(self._get_instance_label(
+            str(instance_id)), self._running_menu_manager.menu)
         base_path = plugin_descriptor.attributes().get('plugin_path')
         self._enrich_action(action, action_attributes, base_path)
 
@@ -131,7 +129,8 @@ class PluginMenu(QObject):
 
     def _enrich_action(self, action, action_attributes, base_path=None):
         if 'icon' in action_attributes and action_attributes['icon'] is not None:
-            icon = get_icon(action_attributes['icon'], action_attributes.get('icontype', None), base_path)
+            icon = get_icon(
+                action_attributes['icon'], action_attributes.get('icontype', None), base_path)
             action.setIcon(icon)
 
         if 'statustip' in action_attributes:
