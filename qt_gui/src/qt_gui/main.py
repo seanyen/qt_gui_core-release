@@ -192,12 +192,11 @@ class Main(object):
     def _check_icon_theme_compliance(self):
         from python_qt_binding.QtGui import QIcon
         # TODO find a better way to verify Theme standard compliance
-        if QIcon.themeName() == '' or \
-           QIcon.fromTheme('document-save').isNull() or \
+        if QIcon.fromTheme('document-save').isNull() or \
            QIcon.fromTheme('document-open').isNull() or \
            QIcon.fromTheme('edit-cut').isNull() or \
            QIcon.fromTheme('object-flip-horizontal').isNull():
-            if 'darwin' in platform.platform().lower() and \
+            if platform.system() == 'Darwin' and \
                     '/usr/local/share/icons' not in QIcon.themeSearchPaths():
                 QIcon.setThemeSearchPaths(QIcon.themeSearchPaths() + ['/usr/local/share/icons'])
             original_theme = QIcon.themeName()
@@ -562,8 +561,13 @@ class Main(object):
 
         # set initial size - only used without saved configuration
         if main_window is not None:
-            main_window.resize(600, 450)
-            main_window.move(100, 100)
+            # Adjust size to fit the widget if standalone (e.g. single plugin)
+            if standalone:
+                main_window.adjustSize()
+            # On "clean" startup set some size to fully display the menu bar
+            else:
+                main_window.resize(600, 450)
+                main_window.move(100, 100)
 
         # ensure that qt_gui/src is in sys.path
         src_path = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
