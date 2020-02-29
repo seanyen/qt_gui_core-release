@@ -2,6 +2,39 @@
 Changelog for package qt_gui
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.17 (2020-02-28)
+-------------------
+* bump CMake minimum version to avoid CMP0048 warning (`#206 <https://github.com/ros-visualization/qt_gui_core/issues/206>`_)
+* use native default icon theme if suitable (`#202 <https://github.com/ros-visualization/qt_gui_core/issues/202>`_)
+* fix title bar buttons rendering on macOS (`#205 <https://github.com/ros-visualization/qt_gui_core/issues/205>`_)
+* fix platform check for macOS in themeSearchPaths patching (`#204 <https://github.com/ros-visualization/qt_gui_core/issues/204>`_)
+* auto adjust main window if standalone (`#199 <https://github.com/ros-visualization/qt_gui_core/issues/199>`_)
+
+0.3.16 (2019-12-04)
+-------------------
+* fix UI to enter perspective name (`#198 <https://github.com/ros-visualization/qt_gui_core/issues/198>`_)
+
+0.3.15 (2019-10-23)
+-------------------
+
+0.3.14 (2019-10-03)
+-------------------
+
+0.3.13 (2019-09-30)
+-------------------
+* add Python 3 dependencies with conditions (`#184 <https://github.com/ros-visualization/qt_gui_core/issues/184>`_)
+
+0.3.12 (2019-09-30)
+-------------------
+* fix C++ Settings methods allKeys, childGroups, childKeys (`#182 <https://github.com/ros-visualization/qt_gui_core/issues/182>`_)
+* add missing QtCore import (`#178 <https://github.com/ros-visualization/qt_gui_core/issues/178>`_)
+* fix changing dictionary during iteration (`#167 <https://github.com/ros-visualization/qt_gui_core/issues/167>`_)
+* fix typo (`#164 <https://github.com/ros-visualization/qt_gui_core/issues/164>`_)
+* remove obsolete maintainer (`#160 <https://github.com/ros-visualization/qt_gui_core/issues/160>`_)
+* fix warning message (`#143 <https://github.com/ros-visualization/qt_gui_core/issues/143>`_)
+* changes for flake8 and ROS2 compatible style changes (`#130 <https://github.com/ros-visualization/qt_gui_core/issues/130>`_)
+* autopep8 (`#123 <https://github.com/ros-visualization/qt_gui_core/issues/123>`_)
+
 0.3.11 (2018-08-29)
 -------------------
 * fix path being set for exporting perspective (`#121 <https://github.com/ros-visualization/qt_gui_core/issues/121>`_, regression from 0.3.9)
