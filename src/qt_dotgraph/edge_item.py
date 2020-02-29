@@ -30,10 +30,12 @@
 
 from python_qt_binding.QtCore import QPointF, Qt
 from python_qt_binding.QtGui import QBrush, QPainterPath, QPen, QPolygonF
-from python_qt_binding.QtWidgets import QGraphicsPathItem, QGraphicsPolygonItem, QGraphicsSimpleTextItem
+from python_qt_binding.QtWidgets import (QGraphicsPathItem,
+                                         QGraphicsPolygonItem,
+                                         QGraphicsSimpleTextItem)
 
 
-from .graph_item import GraphItem
+from qt_dotgraph.graph_item import GraphItem
 
 
 class EdgeItem(GraphItem):
@@ -44,7 +46,9 @@ class EdgeItem(GraphItem):
         'solid': Qt.SolidLine,
     }
 
-    def __init__(self, highlight_level, spline, label_center, label, from_node, to_node, parent=None, penwidth=1, edge_color=None, style='solid'):
+    def __init__(
+            self, highlight_level, spline, label_center, label, from_node, to_node,
+            parent=None, penwidth=1, edge_color=None, style='solid'):
         super(EdgeItem, self).__init__(highlight_level, parent)
 
         self.from_node = from_node
@@ -83,7 +87,8 @@ class EdgeItem(GraphItem):
             self._label.hoverLeaveEvent = self._handle_hoverLeaveEvent
             self._label.setAcceptHoverEvents(True)
 
-        # spline specification according to http://www.graphviz.org/doc/info/attrs.html#k:splineType
+        # spline specification according to
+        # http://www.graphviz.org/doc/info/attrs.html#k:splineType
         coordinates = spline.split(' ')
         # extract optional end_point
         end_point = None
