@@ -2,6 +2,27 @@
 Changelog for package qt_gui_app
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.3.17 (2020-02-28)
+-------------------
+* bump CMake minimum version to avoid CMP0048 warning (`#206 <https://github.com/ros-visualization/qt_gui_core/issues/206>`_)
+
+0.3.16 (2019-12-04)
+-------------------
+
+0.3.15 (2019-10-23)
+-------------------
+
+0.3.14 (2019-10-03)
+-------------------
+
+0.3.13 (2019-09-30)
+-------------------
+
+0.3.12 (2019-09-30)
+-------------------
+* remove obsolete maintainer (`#160 <https://github.com/ros-visualization/qt_gui_core/issues/160>`_)
+* changes for flake8 and ROS2 compatible style changes (`#130 <https://github.com/ros-visualization/qt_gui_core/issues/130>`_)
+
 0.3.11 (2018-08-29)
 -------------------
 
