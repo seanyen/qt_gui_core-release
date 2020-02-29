@@ -32,7 +32,6 @@ from python_qt_binding.QtCore import QObject, Slot
 
 
 class Settings(QObject):
-
     """Storage of key-value data with a QSettings-like interface."""
 
     def __init__(self, settings_proxy, group):
@@ -48,6 +47,7 @@ class Settings(QObject):
             prefix += '/'
         return Settings(self._settings_proxy, prefix + group)
 
+    @Slot(result='QStringList')
     def all_keys(self):
         return self._settings_proxy.all_keys(self._group)
 
@@ -55,9 +55,11 @@ class Settings(QObject):
 
 #    def begin_write_array(self):
 
+    @Slot(result='QStringList')
     def child_groups(self):
         return self._settings_proxy.child_groups(self._group)
 
+    @Slot(result='QStringList')
     def child_keys(self):
         return self._settings_proxy.child_keys(self._group)
 
